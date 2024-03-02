@@ -2,15 +2,20 @@ import { Hono } from 'hono';
 import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { sign, verify, decode } from 'hono/jwt';
+import { initMiddleware } from './middleware';
 
 const app = new Hono<{
 	Bindings: {
 		DATABASE_URL: string;
     JWT_SECRET: string;
-	}
+	},
+  Variables:{
+    userId: number
+  }
 }>();
 
-app.post('/api/v1/signup',async (c)=>{
+
+app.post('/api/v1/signup', async (c)=>{
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
@@ -66,7 +71,7 @@ app.post('/api/v1/signin', async (c)=>{
   }
 });
 
-app.get('/api/v1/blog/:id',async (c)=>{
+app.get('/api/v1/blog/:id',initMiddleware, async (c)=>{
   const blogId = c.req.param('id');
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -92,7 +97,7 @@ app.get('/api/v1/blog/:id',async (c)=>{
   }
 })
 
-app.post('/api/v1/blog',async (c)=>{
+app.post('/api/v1/blog', initMiddleware, async (c)=>{
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
@@ -116,7 +121,7 @@ app.post('/api/v1/blog',async (c)=>{
   }
 });
 
-app.put('/api/v1/blog/:id',async (c)=>{
+app.put('/api/v1/blog/:id', initMiddleware, async (c)=>{
   const blogId = c.req.param('id');
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
