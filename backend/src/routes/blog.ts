@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import {createBlogSchema, updateBlogInput} from "@harshashetty67/common-app/dist/index"
+import {createBlogSchema, updateBlogSchema} from "@harshashetty67/common-app/dist/index"
 
 export const blogRouter = new Hono<{
     Bindings: {
@@ -82,7 +82,7 @@ blogRouter.put('/', async (c) => {
 	const body = await c.req.json();
 
 	// Zod validation
-	const {success} = updateBlogInput.safeParse(body);
+	const {success} = updateBlogSchema.safeParse(body);
 
 	if(!success) {
 		return c.json({error:"Bad inputs"},411);

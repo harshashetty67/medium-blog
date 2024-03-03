@@ -1,11 +1,31 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { SigninType } from "@harshashetty67/common-app/dist/index";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export const Login = () => {
-  const [inputList, setInputList] = useState({
-    username: "",
+  const [inputList, setInputList] = useState<SigninType>({
+    email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+
+  async function singInUser() {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/user/signin`, {
+        email: inputList.email,
+        password: inputList.password,
+      });
+      console.log(response.data.jwt);
+      localStorage.setItem("token", response.data.jwt);
+      navigate("/blog/1");
+    } catch (e) {
+      alert(`Some error occured while signin : ${e}`);
+    }
+  }
+
   return (
     <div className="h-screen w-full flex justify-center items-center px-10">
       <div className="flex flex-col">
@@ -23,8 +43,7 @@ export const Login = () => {
             label="Email"
             placeholder="Enter your email"
             onChange={(e) => {
-              setInputList({ ...inputList, username: e.target.value });
-              console.log(inputList.username);
+              setInputList({ ...inputList, email: e.target.value });
             }}
           />
           <InputComponent
@@ -33,10 +52,12 @@ export const Login = () => {
             placeholder="Enter your password"
             onChange={(e) => {
               setInputList({ ...inputList, password: e.target.value });
-              console.log(inputList.password);
             }}
           />
-          <button className="w-full bg-black text-white text-lg font-medium text-center rounded-lg py-3">
+          <button
+            onClick={singInUser}
+            className="w-full bg-black text-white text-lg font-medium text-center rounded-lg py-3"
+          >
             Login
           </button>
         </div>
