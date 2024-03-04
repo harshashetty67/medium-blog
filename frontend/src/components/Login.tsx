@@ -20,7 +20,7 @@ export const Login = () => {
       });
       console.log(response.data.jwt);
       localStorage.setItem("token", response.data.jwt);
-      navigate("/blog/1");
+      navigate("/blogs");
     } catch (e) {
       alert(`Some error occured while signin : ${e}`);
     }

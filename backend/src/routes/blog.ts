@@ -22,15 +22,15 @@ blogRouter.use('/*', async (c,next)=>{
 		return c.json({ error: "unauthorized" });
 	}
 
-	const token = jwt.split(' ')[1];
+	const token = jwt.split(" ")[1];
   try{
     const payload = await verify(token, c.env.JWT_SECRET);
 	  c.set('userId', payload.id);
 	  await next();
   }
 	catch (err) {
-		c.status(401);
-		return c.json({ error: "unauthorized" });
+		c.status(403);
+		return c.json({ error: "Forbidden" });
 	}
 });
 
@@ -40,7 +40,19 @@ blogRouter.get('/all', async (c) => {
 		datasourceUrl: c.env?.DATABASE_URL	,
 	}).$extends(withAccelerate());
 	
-	const posts = await prisma.post.findMany({});
+	const posts = await prisma.post.findMany({
+		select:{
+			title:true,
+			content:true,
+			id:true,
+			author:{
+				select:{
+					name:true,
+					email:true
+				}
+			}
+		},
+	});
   return c.json({blogs: posts});
 });
 
@@ -123,12 +135,22 @@ blogRouter.get('/:id', async (c) => {
 	const post = await prisma.post.findUnique({
 		where: {
 			id
-		}
+		},
+		select:{
+			title:true,
+			content:true,
+			id:true,
+			author:{
+				select:{
+					name:true
+				}
+			}
+		},
 	});
 
   if(!post){
     return c.text("Blog not found.",404);
   }
 
-	return c.json(post);
+	return c.json({blog:post});
 });
