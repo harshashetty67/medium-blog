@@ -12,8 +12,8 @@ export const Blog = () => {
   return (
     <BlogDetail
       key={blog?.id}
-      title={blog?.title}
-      content={blog?.content}
+      title={blog?.title || ""}
+      content={blog?.content || ""}
       name={blog?.author.name || "Anonymous"}
     />
   );

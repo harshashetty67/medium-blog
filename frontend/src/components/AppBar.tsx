@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const AppBar = ({ name }) => {
+export const AppBar = ({ name }: { name: string }) => {
   return (
     <div className="flex justify-between items-center w-full">
       <Link to={"/blogs"}>

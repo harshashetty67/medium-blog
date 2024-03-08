@@ -45,6 +45,7 @@ export const CreateAccount = () => {
             label="Name"
             placeholder="Enter your name"
             onChange={(e) => {
+              //@ts-ignore
               setInputList({ ...inputList, name: e.target.value });
             }}
           />
@@ -53,6 +54,7 @@ export const CreateAccount = () => {
             label="Email"
             placeholder="Enter your email"
             onChange={(e) => {
+              //@ts-ignore
               setInputList({ ...inputList, email: e.target.value });
             }}
           />
@@ -61,6 +63,7 @@ export const CreateAccount = () => {
             label="Password"
             placeholder="Enter your password"
             onChange={(e) => {
+              //@ts-ignore
               setInputList({ ...inputList, password: e.target.value });
             }}
           />

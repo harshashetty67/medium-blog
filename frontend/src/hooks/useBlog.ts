@@ -24,12 +24,14 @@ export const useBlogs = () => {
       updateBlogs(respone.data.blogs);
       setLoading(false);
     })
+    //@ts-ignore
   },[]);
 
   return {isLoading, blogs};
 }
 
-export const useBlog = ({id}:{id:string}) => {
+//@ts-ignore
+export const useBlog = ({id}) => {
   const [isLoading, setLoading] = useState(true);
   const[blog,updateBlog] = useState<Blog>();
 
@@ -42,6 +44,7 @@ export const useBlog = ({id}:{id:string}) => {
       updateBlog(respone.data.blog);
       setLoading(false);
     })
+    //@ts-ignore
   },[id]);
 
   return {isLoading, blog};

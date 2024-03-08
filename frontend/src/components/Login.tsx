@@ -43,6 +43,7 @@ export const Login = () => {
             label="Email"
             placeholder="Enter your email"
             onChange={(e) => {
+              //@ts-ignore
               setInputList({ ...inputList, email: e.target.value });
             }}
           />
@@ -51,6 +52,7 @@ export const Login = () => {
             label="Password"
             placeholder="Enter your password"
             onChange={(e) => {
+              //@ts-ignore
               setInputList({ ...inputList, password: e.target.value });
             }}
           />
