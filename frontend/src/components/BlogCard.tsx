@@ -19,7 +19,7 @@ export const BlogCard = ({
     <div className="w-6/12">
       <Link to={`/blog/${id}`}>
         <div className="w-full px-2 py-4 cursor-pointer md:w-8/12">
-          <div className="flex items-center w-">
+          <div className="flex items-center">
             <span className="rounded-full font-semibold text-md border text-center px-3 py-1 object-cover bg-slate-300 text-black ">
               {name[0].toLocaleUpperCase()}
             </span>
