@@ -15,7 +15,7 @@ export const Blog = () => {
         key={blog?.id}
         title={blog?.title}
         content={blog?.content}
-        name={blog?.author.name}
+        name={blog?.author.name || "Anonymous"}
       />
     </div>
   );
